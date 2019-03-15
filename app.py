@@ -14,7 +14,7 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route("/upload", methods="GET")
+@app.route("/upload", methods=["GET"])
 def upload_one():
     # 获取get的参数
     pn = request.args.get("productname")
@@ -26,7 +26,7 @@ def upload_one():
             "result": result,
             "code": 200
         }
-    except Exception, err:
+    except err:
         return {
             "code": 500,
             "message": "错误发生在预测时"
