@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory, abort
+import fasttext
 import os
 # from werkzeug.utils import secure_filename
 import jieba
