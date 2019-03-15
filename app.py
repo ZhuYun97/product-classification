@@ -34,5 +34,5 @@ def upload_one():
 
 if __name__ == '__main__':
     fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
-    app.run(host='0.0.0.0',port=3000)
+    app.run(host='0.0.0.0',port=5000)
 
