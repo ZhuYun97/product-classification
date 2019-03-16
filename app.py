@@ -19,7 +19,7 @@ def create_app():
     try:
         fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
         partial_common_words = [" ", '\r']
-        with open('./algorithm/partial_common_words.txt', 'r', encoding = "ISO-8859-1") as file:
+        with open('./algorithm/partial_common_words.txt', 'r', encoding = "utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 # ["a b c d"] 所有数据得是一行的
@@ -84,17 +84,21 @@ def create_app():
             if not fasttext_model:
                 fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
             pn = deal(pn)
+            # 输入文本过短
+
             resultlist = fasttext_model.predict(pn)[0]  # 是否要返回前三个？
             if resultlist:
                 result = resultlist[0]
                 return jsonify({
-                    "words": partial_common_words,
-                    "pn": pn,
+                    # "words": partial_common_words,
+                    # "pn": pn,
                     "result": result,
                     "code": 0
                 })
             else:
                 return jsonify({
+                    # "words": partial_common_words,
+                    # "pn": pn,
                     "result": "无法预测",
                     "code": 1
                 })
