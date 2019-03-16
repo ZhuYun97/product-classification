@@ -59,25 +59,37 @@ def deal(raw_text):
 
 raw_text1 = "影视编导专业考前辅导教程 赵西盈 中国传媒大学出版社 适用于广播电视编导导演、戏剧影视文"
 text1 = deal(raw_text1)
+raw_text2 = "2016春季新款舒适透气韩版气垫内增高女鞋圆头套脚平底鞋运动鞋休闲单鞋子 枪色 35"
+text2 = deal(raw_text2)
+raw_text3 = "apphome 手机镜头 8倍变焦摄像头套装 广角微距鱼眼自拍镜头 出游必备拍照神器 iphone6/6s"
+text3 = deal(raw_text3)
+raw_text4 = "【618】父亲节礼物送朋友实用咖啡杯套装马克杯子创意成套杯子陶瓷叠叠杯带铁架无盖杯早餐 粉嘟嘟"
+text4 = deal(raw_text4)
 
-result = classifier1.predict("QB充值")
-print("----------QB充值-----------")
-print(result)
+
+print("----------鞋子-----------")
+result = classifier1.predict(raw_text2)
 print(result[0][0])
-print("----------兰亭集序-----------")
-result = classifier1.predict("兰亭集序")
-print(result)
+result = classifier1.predict(text2)
 print(result[0][0])
-print("---------------------")
-result = classifier1.predict(" ")
-print(result)
-print(result[0])
-print("----------影视-----------")
+print("----------书-----------")
 result = classifier1.predict(raw_text1)
-print(result)
 print(result[0][0])
 result = classifier1.predict(text1)
-print(result)
 print(result[0][0])
+print("--------- ------------")
+result = classifier1.predict(" ")
+print(result[0][0])
+print("----------手机-----------")
+result = classifier1.predict(raw_text3)
+print(result[0][0])
+result = classifier1.predict(text3)
+print(result[0][0])
+print("----------礼品-----------")
+result = classifier1.predict(raw_text4)
+print(result[0][0])
+result = classifier1.predict(text4)
+print(result[0][0])
+
 
 
