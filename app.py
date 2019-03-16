@@ -34,6 +34,6 @@ def create_app():
                 "code": 500,
                 "message": "错误发生在预测时"
             }
-        return app
+    return app
 
 
