@@ -5,7 +5,6 @@ import os
 import jieba
 # import csv
 
-app = Flask(__name__)
 fasttext_model = None
 file_name=""
 
@@ -33,7 +32,10 @@ def upload_one():
             "message": "错误发生在预测时"
         }
 
-if __name__ == '__main__':
+
+def create_app():
+    app = Flask(__name__)
     fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
-    app.run(host='0.0.0.0',port=5000)
+    app.run()
+
 
