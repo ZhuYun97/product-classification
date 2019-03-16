@@ -1,11 +1,12 @@
 import fasttext
 import jieba
 import re
+import codecs
 classifier1 = fasttext.load_model("./a.bin", label_prefix='__label__')
 #classifier2 = fasttext.load_model("./b.bin", label_prefix='__label__')
 
 partial_common_words = [" ", '\r']
-with open('./partial_common_words.txt', 'r') as file:
+with open('./partial_common_words.txt', 'r', encoding='utf-8') as file:
     lines = file.readlines()
     for line in lines:
         # ["a b c d"] 所有数据得是一行的
