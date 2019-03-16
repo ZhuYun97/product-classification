@@ -5,7 +5,7 @@ classifier1 = fasttext.load_model("./a.bin", label_prefix='__label__')
 #classifier2 = fasttext.load_model("./b.bin", label_prefix='__label__')
 
 partial_common_words = [" ", '\r']
-with open('./algorithm/common_words.txt', 'r') as file:
+with open('./common_words.txt', 'r') as file:
     lines = file.readlines()
     for line in lines:
         # ["a b c d"] 所有数据得是一行的
