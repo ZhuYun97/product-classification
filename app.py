@@ -4,6 +4,7 @@ import traceback
 import os
 # from werkzeug.utils import secure_filename
 import jieba
+import re
 # import csv
 
 
@@ -32,6 +33,45 @@ def create_app():
         })
     file_name = ""
 
+    def stopwordslist(filepath):
+        stopwords = [line.strip() for line in open(filepath, 'r', encoding='utf-8').readlines()]
+        stopwords.append("★")
+        stopwords.append("[")
+        stopwords.append("]")
+        stopwords.append("【")
+        stopwords.append("】")
+        stopwords.append("(")
+        stopwords.append(")")
+        stopwords.append("/")
+        stopwords.append("-")
+        stopwords.append("（")
+        stopwords.append("）")
+        stopwords.append("／")
+        stopwords.append("-")
+        stopwords.append("+")
+        stopwords.append("*")
+        stopwords.append("|")
+        stopwords.append("·")
+        stopwords.append(":")
+        stopwords.append("…")
+        stopwords.append("’")
+        stopwords.append("'")
+        stopwords.append('"')
+        stopwords.append('◆')
+        #  空格不能去，否则准确率极低
+        return stopwords
+
+    stopwords = stopwordslist("./algorithm/stopwords/chinese_stops.txt")
+
+    def deal(raw_text):
+        seg_text = jieba.cut(raw_text.replace("\t", " ").replace("\n", " "), cut_all=False)
+
+        seg_text_filter = [word for word in seg_text if
+                           word not in stopwords and word in partial_common_words and not re.match("^\d*元$|^\d*$",
+                                                                                                   word)]
+        text = "".join(seg_text_filter)
+        return text
+
     @app.route('/')
     def hello_world():
         return '欢迎来到猪事顺心小组的作品。\n该项目正在开发中，敬请期待！'
@@ -43,6 +83,7 @@ def create_app():
             pn = request.args.get("productname")
             if not fasttext_model:
                 fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
+            pn = deal(pn)
             resultlist = fasttext_model.predict(pn)[0]  # 是否要返回前三个？
             if resultlist:
                 result = resultlist[0]
