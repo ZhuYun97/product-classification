@@ -12,7 +12,24 @@ def create_app():
     app = Flask(__name__)
     # 返回的json可以显示中文
     app.config['JSON_AS_ASCII'] = False
-    fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
+    fasttext_model = None
+    partial_common_words = None
+    all_common_words = None
+    try:
+        fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
+        partial_common_words = [" ", '\r']
+        with open('./algorithm/common_words.txt', 'r') as file:
+            lines = file.readlines()
+            for line in lines:
+                # ["a b c d"] 所有数据得是一行的
+                partial_common_words += line.split()
+        # 懒加载
+        all_common_words = [" ", '\r']
+    except Exception:
+        return jsonify({
+            "code": 3,
+            "message": "加载数据出错"
+        })
     file_name = ""
 
     @app.route('/')

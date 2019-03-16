@@ -50,6 +50,7 @@ for index, row in train_csv.iterrows():
     for word in seg_text_filter:
         freq[word] += 1
 
+# 把常用词保存下来
 most_freq_words = freq.most_common(70000)
 most_freq_words = [word[0] for word in most_freq_words if word[1] >= 5]
 train_file = codecs.open("./highrate.train", 'w', 'utf-8')
