@@ -10,6 +10,8 @@ import jieba
 
 def create_app():
     app = Flask(__name__)
+    # 返回的json可以显示中文
+    app.config['JSON_AS_ASCII'] = False
     fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
     file_name = ""
 
