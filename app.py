@@ -91,14 +91,14 @@ def create_app():
                 result = resultlist[0]
                 return jsonify({
                     # "words": partial_common_words,
-                    # "pn": pn,
+                    "pn": pn,
                     "result": result,
                     "code": 0
                 })
             else:
                 return jsonify({
                     # "words": partial_common_words,
-                    # "pn": pn,
+                    "pn": pn,
                     "result": "无法预测",
                     "code": 1
                 })
@@ -108,6 +108,7 @@ def create_app():
             info = traceback.format_exc()
             print(info, str(e))
             return jsonify({
+                "pn": pn,
                 "code": 2,
                 "message": "错误发生在预测时"
             })
