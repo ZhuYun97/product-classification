@@ -18,7 +18,7 @@ def create_app():
     try:
         fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
         partial_common_words = [" ", '\r']
-        with open('./algorithm/partial_common_words.txt', 'r', encoding='utf-8') as file:
+        with open('./algorithm/partial_common_words.txt', 'r', encoding = "ISO-8859-1") as file:
             lines = file.readlines()
             for line in lines:
                 # ["a b c d"] 所有数据得是一行的
