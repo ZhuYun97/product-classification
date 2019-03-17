@@ -92,6 +92,7 @@ def create_app():
             resultlist = fasttext_model.predict([pn], 5)
             prolist = fasttext_model.predict_proba([pn], 5)
             return jsonify({
+                "pn": pn,
                 "result": resultlist,
                 "problist": prolist
             })
