@@ -1,0 +1,27 @@
+def stopwordslist(filepath):
+    stopwords = [line.strip() for line in open(filepath, 'r', encoding='utf-8').readlines()]
+    stopwords.append("★")
+    stopwords.append("[")
+    stopwords.append("]")
+    stopwords.append("【")
+    stopwords.append("】")
+    stopwords.append("(")
+    stopwords.append(")")
+    stopwords.append("/")
+    stopwords.append("-")
+    stopwords.append("（")
+    stopwords.append("）")
+    stopwords.append("／")
+    stopwords.append("-")
+    stopwords.append("+")
+    stopwords.append("*")
+    stopwords.append("|")
+    stopwords.append("·")
+    stopwords.append(":")
+    stopwords.append("…")
+    stopwords.append("’")
+    stopwords.append("'")
+    stopwords.append('"')
+    stopwords.append('◆')
+     #  空格不能去，否则准确率极低
+    return stopwords
