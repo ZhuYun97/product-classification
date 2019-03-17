@@ -67,6 +67,16 @@ def create_app():
     stopwords = stopwordslist("./algorithm/stopwords/chinese_stops.txt")
 
     def deal(raw_text):
+        jieba.suggest_freq('q币', True)
+        jieba.suggest_freq('Q币', True)
+        jieba.suggest_freq('QQ', True)
+        jieba.suggest_freq('qb', True)
+        jieba.suggest_freq('红钻', True)
+        jieba.suggest_freq('绿钻', True)
+        jieba.suggest_freq('黄钻', True)
+        jieba.suggest_freq('蓝钻', True)
+        jieba.suggest_freq('紫钻', True)
+        jieba.suggest_freq('黑钻', True)
         seg_text = jieba.cut(raw_text.replace("\t", " ").replace("\n", " "), cut_all=False)
 
         seg_text_filter = [word for word in seg_text if
