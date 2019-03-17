@@ -2,30 +2,30 @@ import fasttext
 import jieba
 import re
 import codecs
-classifier1 = fasttext.load_model("./c.bin", label_prefix='__label__')
-
-result = classifier1.test("./highrate.test")
-print("Precision on testing data:", result.precision)
-result = classifier1.test("./highrate.train")
-print("Precision on training data:", result.precision)
-
-classifier1 = fasttext.load_model("./d.bin", label_prefix='__label__')
-result = classifier1.test("./highrate.test")
-print("Precision on testing data:", result.precision)
-result = classifier1.test("./highrate.train")
-print("Precision on training data:", result.precision)
-
-classifier1 = fasttext.load_model("./e.bin", label_prefix='__label__')
-result = classifier1.test("./highrate.test")
-print("Precision on testing data:", result.precision)
-result = classifier1.test("./highrate.train")
-print("Precision on training data:", result.precision)
-
-classifier1 = fasttext.load_model("./f.bin", label_prefix='__label__')
-result = classifier1.test("./highrate.test")
-print("Precision on testing data:", result.precision)
-result = classifier1.test("./highrate.train")
-print("Precision on training data:", result.precision)
+# classifier1 = fasttext.load_model("./c.bin", label_prefix='__label__')
+#
+# result = classifier1.test("./highrate.test")
+# print("Precision on testing data:", result.precision)
+# result = classifier1.test("./highrate.train")
+# print("Precision on training data:", result.precision)
+#
+# classifier1 = fasttext.load_model("./d.bin", label_prefix='__label__')
+# result = classifier1.test("./highrate.test")
+# print("Precision on testing data:", result.precision)
+# result = classifier1.test("./highrate.train")
+# print("Precision on training data:", result.precision)
+#
+# classifier1 = fasttext.load_model("./e.bin", label_prefix='__label__')
+# result = classifier1.test("./highrate.test")
+# print("Precision on testing data:", result.precision)
+# result = classifier1.test("./highrate.train")
+# print("Precision on training data:", result.precision)
+#
+# classifier1 = fasttext.load_model("./f.bin", label_prefix='__label__')
+# result = classifier1.test("./highrate.test")
+# print("Precision on testing data:", result.precision)
+# result = classifier1.test("./highrate.train")
+# print("Precision on training data:", result.precision)
 
 classifier1 = fasttext.load_model("./b.bin", label_prefix='__label__')
 result = classifier1.test("./highrate.test")

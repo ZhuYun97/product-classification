@@ -21,9 +21,9 @@ def create_app():
     all_common_words = None
     try:
         fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
-        fasttext_model2 = fasttext.load_model("./algorithm/b.bin", label_prefix='__label__')
-        fasttext_model3 = fasttext.load_model("./algorithm/e.bin", label_prefix='__label__')
-        fasttext_model4 = fasttext.load_model("./algorithm/f.bin", label_prefix='__label__')
+        # fasttext_model2 = fasttext.load_model("./algorithm/b.bin", label_prefix='__label__')
+        # fasttext_model3 = fasttext.load_model("./algorithm/e.bin", label_prefix='__label__')
+        # fasttext_model4 = fasttext.load_model("./algorithm/f.bin", label_prefix='__label__')
         partial_common_words = [" ", '\r']
         with open('./algorithm/partial_common_words.txt', 'r', encoding = "utf-8") as file:
             lines = file.readlines()
@@ -83,18 +83,18 @@ def create_app():
         return '欢迎来到猪事顺心小组的作品。\n该项目正在开发中，敬请期待！'
 
     @app.route("/upload")
-    def upload_one(fasttext_model = fasttext_model, fasttext_model2 = fasttext_model2, fasttext_model3 = fasttext_model3, fasttext_model4 = fasttext_model4):
+    def upload_one(fasttext_model = fasttext_model):
         try:
             # 获取get的参数
             pn = request.args.get("productname")
             if not fasttext_model:
                 fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
-            if not fasttext_model2:
-                fasttext_model2 = fasttext.load_model("./algorithm/b.bin", label_prefix='__label__')
-            if not fasttext_model3:
-                fasttext_model3 = fasttext.load_model("./algorithm/e.bin", label_prefix='__label__')
-            if not fasttext_model4:
-                fasttext_model4 = fasttext.load_model("./algorithm/f.bin", label_prefix='__label__')
+            # if not fasttext_model2:
+            #     fasttext_model2 = fasttext.load_model("./algorithm/b.bin", label_prefix='__label__')
+            # if not fasttext_model3:
+            #     fasttext_model3 = fasttext.load_model("./algorithm/e.bin", label_prefix='__label__')
+            # if not fasttext_model4:
+            #     fasttext_model4 = fasttext.load_model("./algorithm/f.bin", label_prefix='__label__')
             pn = deal(pn)
             # 输入文本过短
 
@@ -105,9 +105,9 @@ def create_app():
                     # "words": partial_common_words,
                     "pn": pn,
                     "result_a": result,
-                    "result_b": fasttext_model2.predict(pn)[0][0],
-                    "result_e": fasttext_model3.predict(pn)[0][0],
-                    "result_f": fasttext_model4.predict(pn)[0][0],
+                    # "result_b": fasttext_model2.predict(pn)[0][0],
+                    # "result_e": fasttext_model3.predict(pn)[0][0],
+                    # "result_f": fasttext_model4.predict(pn)[0][0],
                     "code": 0
                 })
             else:
