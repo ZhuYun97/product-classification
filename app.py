@@ -14,6 +14,9 @@ def create_app():
     # 返回的json可以显示中文
     app.config['JSON_AS_ASCII'] = False
     fasttext_model = None
+    fasttext_model2 = None
+    fasttext_model3 = None
+    fasttext_model4 = None
     partial_common_words = None
     all_common_words = None
     try:
@@ -80,12 +83,18 @@ def create_app():
         return '欢迎来到猪事顺心小组的作品。\n该项目正在开发中，敬请期待！'
 
     @app.route("/upload")
-    def upload_one(fasttext_model = fasttext_model):
+    def upload_one(fasttext_model = fasttext_model, fasttext_model2 = fasttext_model2, fasttext_model3 = fasttext_model3, fasttext_model4 = fasttext_model4):
         try:
             # 获取get的参数
             pn = request.args.get("productname")
             if not fasttext_model:
                 fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
+            if not fasttext_model2:
+                fasttext_model2 = fasttext.load_model("./algorithm/b.bin", label_prefix='__label__')
+            if not fasttext_model3:
+                fasttext_model3 = fasttext.load_model("./algorithm/e.bin", label_prefix='__label__')
+            if not fasttext_model4:
+                fasttext_model4 = fasttext.load_model("./algorithm/f.bin", label_prefix='__label__')
             pn = deal(pn)
             # 输入文本过短
 
@@ -114,7 +123,6 @@ def create_app():
             info = traceback.format_exc()
             print(info, str(e))
             return jsonify({
-                "pn": pn,
                 "code": 2,
                 "message": "错误发生在预测时"
             })
