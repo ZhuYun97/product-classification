@@ -18,6 +18,9 @@ def create_app():
     all_common_words = None
     try:
         fasttext_model = fasttext.load_model("./algorithm/a.bin", label_prefix='__label__')
+        fasttext_model2 = fasttext.load_model("./algorithm/b.bin", label_prefix='__label__')
+        fasttext_model3 = fasttext.load_model("./algorithm/e.bin", label_prefix='__label__')
+        fasttext_model4 = fasttext.load_model("./algorithm/f.bin", label_prefix='__label__')
         partial_common_words = [" ", '\r']
         with open('./algorithm/partial_common_words.txt', 'r', encoding = "utf-8") as file:
             lines = file.readlines()
@@ -92,7 +95,10 @@ def create_app():
                 return jsonify({
                     # "words": partial_common_words,
                     "pn": pn,
-                    "result": result,
+                    "result_a": result,
+                    "result_b": fasttext_model2.predict(pn)[0][0],
+                    "result_e": fasttext_model3.predict(pn)[0][0],
+                    "result_f": fasttext_model4.predict(pn)[0][0],
                     "code": 0
                 })
             else:
