@@ -72,7 +72,7 @@ def create_app():
         seg_text_filter = [word for word in seg_text if
                            word not in stopwords and word in partial_common_words and not re.match("^\d*元$|^\d*$",
                                                                                                    word)]
-        text = "".join(seg_text_filter)
+        text = " ".join(seg_text_filter)
         return text
 
     @app.route('/')
@@ -90,9 +90,9 @@ def create_app():
             # 输入文本过短
 
             # resultlist = fasttext_model.predict([pn], 5)
-            prolist = fasttext_model.predict_proba([pn], 5)
+            prolist = fasttext_model.predict_proba([pn], 3)
             return jsonify({
-                "pn": pn,
+                "code": 0,
                 "problist": prolist
             })
             # if resultlist:
