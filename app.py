@@ -79,7 +79,7 @@ def create_app():
     def hello_world():
         return '欢迎来到猪事顺心小组的作品。\n该项目正在开发中，敬请期待！'
 
-    @app.route("/upload")
+    @app.route("/upload", methods=["GET"])
     def upload_one(fasttext_model = fasttext_model):
         try:
             # 获取get的参数
@@ -89,22 +89,25 @@ def create_app():
             pn = deal(pn)
             # 输入文本过短
 
-            resultlist = fasttext_model.predict(pn)[0]  # 是否要返回前三个？
-            if resultlist:
-                result = resultlist[0]
-                return jsonify({
-                    # "words": partial_common_words,
-                    "pn": pn,
-                    "result_a": result,
-                    "code": 0
-                })
-            else:
-                return jsonify({
-                    # "words": partial_common_words,
-                    "pn": pn,
-                    "result": "无法预测",
-                    "code": 1
-                })
+            resultlist = fasttext_model.predict([pn], 1)
+            return jsonify({
+                "result": resultlist
+            })
+            # if resultlist:
+            #     result = resultlist[0]
+            #     return jsonify({
+            #         # "words": partial_common_words,
+            #         "pn": pn,
+            #         "result_a": result,
+            #         "code": 0
+            #     })
+            # else:
+            #     return jsonify({
+            #         # "words": partial_common_words,
+            #         "pn": pn,
+            #         "result": "无法预测",
+            #         "code": 1
+            #     })
         except Exception as e:
             traceback.print_exc()
             # 或者得到堆栈字符串信息
@@ -114,6 +117,18 @@ def create_app():
                 "code": 2,
                 "message": "错误发生在预测时"
             })
+
+    # @app.route("/upload", methods=["POST"])
+    # def upload_csv(fasttext_model = fasttext_model):
+    #     try:
+    #         f = request.files['file_test']
+    #         basepath = os.path.dirname(__file__)
+    #         upload_path = os.path.join(basepath, 'static/uploads', f.filename)
+    #         f.save(upload_path)
+    #         test(f.filename)  # 调用测试函数
+    #         return send_from_directory('static/uploads', 'result.csv', as_attachment=True)
+    # except Exception:
+    #         pass
 
     return app
 
