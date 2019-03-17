@@ -89,11 +89,10 @@ def create_app():
             pn = deal(pn)
             # 输入文本过短
 
-            resultlist = fasttext_model.predict([pn], 5)
+            # resultlist = fasttext_model.predict([pn], 5)
             prolist = fasttext_model.predict_proba([pn], 5)
             return jsonify({
                 "pn": pn,
-                "result": resultlist,
                 "problist": prolist
             })
             # if resultlist:
