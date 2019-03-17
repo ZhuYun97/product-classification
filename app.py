@@ -20,7 +20,7 @@ def create_app():
     partial_common_words = None
     all_common_words = None
     try:
-        fasttext_model = fasttext.load_model("./algorithm/b.bin", label_prefix='__label__')
+        fasttext_model = fasttext.load_model("./algorithm/e.bin", label_prefix='__label__')
         partial_common_words = [" ", '\r']
         with open('./algorithm/partial_common_words.txt', 'r', encoding = "utf-8") as file:
             lines = file.readlines()
@@ -85,7 +85,7 @@ def create_app():
             # 获取get的参数
             pn = request.args.get("productname")
             if not fasttext_model:
-                fasttext_model = fasttext.load_model("./algorithm/b.bin", label_prefix='__label__')
+                fasttext_model = fasttext.load_model("./algorithm/e.bin", label_prefix='__label__')
             pn = deal(pn)
             # 输入文本过短
 
