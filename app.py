@@ -113,7 +113,7 @@ def create_app():
                 row["TYPE"] = label
         testdata.to_csv(path, encoding=encoding)
 
-    @app.route("/upload", methods=["POST"])
+    @app.route("/uploadfile", methods=["POST"])
     def upload_csv():
         import time
         unique = str(int(time.time()))
