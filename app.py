@@ -122,10 +122,7 @@ def create_app():
                         label = fasttext_model.predict([text], 1)[0][0]
                     row["TYPE"] = label
                 except Exception as e:
-                    return jsonify({
-                        "code": 1,
-                        "message": str(e)
-                    })
+                    print(str(e))
                 # finally:
                 #     row["TYPE"] = label
             print("before saving")
