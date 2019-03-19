@@ -109,24 +109,30 @@ def create_app():
             })
 
     def predict(testdata, encoding, path, fasttext_model=fasttext_model):
-        for index, row in testdata.iterrows():
-            raw_text = row["ITEM_NAME"]
-            text = deal(raw_text)
-            label = "Unknown"
-            try:
-                if fasttext_model:
-                    label = fasttext_model.predict([text], 1)[0][0]
-                else:
-                    fasttext_model = fasttext.load_model("./algorithm/save/" + fm_name, label_prefix='__label__')
-                    label = fasttext_model.predict([text], 1)[0][0]
+        try:
+            for index, row in testdata.iterrows():
+                raw_text = row["ITEM_NAME"]
+                text = deal(raw_text)
+                label = "Unknown"
+                try:
+                    if fasttext_model:
+                        label = fasttext_model.predict([text], 1)[0][0]
+                    else:
+                        fasttext_model = fasttext.load_model("./algorithm/save/" + fm_name, label_prefix='__label__')
+                        label = fasttext_model.predict([text], 1)[0][0]
 
-            except Exception as e:
-                return jsonify({
-                    "code": 1,
-                    "message": str(e)
-                })
-            finally:
-                row["TYPE"] = label
+                except Exception as e:
+                    return jsonify({
+                        "code": 1,
+                        "message": str(e)
+                    })
+                finally:
+                    row["TYPE"] = label
+        except Exception as e:
+            return jsonify({
+                "code": 3,
+                "message": str(e)
+            })
         try:
             if encoding == "utf-8":
                 testdata.to_csv(path, encoding=encoding, sep=",")
