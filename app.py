@@ -129,6 +129,7 @@ def create_app():
                 # finally:
                 #     row["TYPE"] = label
             if encoding == "utf-8":
+                print(path)
                 testdata.to_csv(path, encoding=encoding, sep=",")
             else:
                 testdata.to_csv(path, encoding=encoding, sep="\t")
@@ -166,7 +167,7 @@ def create_app():
                 # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
                         "code": 0,
-                        "filename": filename
+                        "filename": resultname
                     })
                 except Exception as e:
                     return jsonify({
@@ -180,13 +181,11 @@ def create_app():
                         testdata = pd.read_csv(upload_path, sep=",", encoding=encoding)
                     else:
                         testdata = pd.read_csv(upload_path, sep="\t", encoding=encoding)
-                    print("before predicting")
                     predict(testdata, encoding, resultname)
-                    print("finish predicting")
                     # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
                         "code": 0,
-                        "filename": filename
+                        "filename": resultname
                     })
                 except Exception as e:
                     return jsonify({
