@@ -128,6 +128,7 @@ def create_app():
                     })
                 finally:
                     row["TYPE"] = label
+
         except Exception as e:
             return jsonify({
                 "code": 3,
@@ -143,6 +144,7 @@ def create_app():
                 "code": 2,
                 "message": str(e)
             })
+        return
 
     @app.route("/uploadfile", methods=["POST"])
     def upload_csv():
