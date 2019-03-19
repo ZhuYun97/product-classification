@@ -110,7 +110,6 @@ def create_app():
 
     def predict(testdata, encoding, path, fasttext_model=fasttext_model):
         for index, row in testdata.iterrows():
-            print(row)
             raw_text = row["ITEM_NAME"]
             text = deal(raw_text)
             label = "Unknown"
