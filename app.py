@@ -6,8 +6,20 @@ from werkzeug.utils import secure_filename
 import jieba
 import re
 from utils import stopwordslist
-from utils import add_corpus
 import pandas as pd
+
+
+def add_corpus():
+    jieba.suggest_freq('q币', True)
+    jieba.suggest_freq('Q币', True)
+    jieba.suggest_freq('QQ', True)
+    jieba.suggest_freq('qb', True)
+    jieba.suggest_freq('红钻', True)
+    jieba.suggest_freq('绿钻', True)
+    jieba.suggest_freq('黄钻', True)
+    jieba.suggest_freq('蓝钻', True)
+    jieba.suggest_freq('紫钻', True)
+    jieba.suggest_freq('黑钻', True)
 
 
 def create_app():
@@ -19,6 +31,7 @@ def create_app():
     fm_name = "b.bin"
     partial_common_words = None
     all_common_words = None
+
     add_corpus()
     try:
         fasttext_model = fasttext.load_model("./algorithm/save/" + fm_name, label_prefix='__label__')
@@ -146,11 +159,15 @@ def create_app():
             elif suffix == 'csv' or suffix == 'tsv':
                 try:
                     testdata = pd.read_csv(upload_path, sep="\t", encoding=encoding)
-                    predict(testdata, encoding, resultname)
-                except Exception:
+                    # predict(testdata, encoding, resultname)
+                    return jsonify({
+                        "message": "编码正确"
+                    })
+                except Exception as e:
                     return jsonify({
                         "code": 2,
-                        "message": "编码不正确，请选择其他的编码方式"
+                        "message": "编码不正确，请选择其他的编码方式",
+                        "error": str(e)
                     })
             else:
                 raise Exception("文件类型错误，请选择xls，csv，tsv类型的文件")
