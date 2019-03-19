@@ -186,6 +186,7 @@ def create_app():
                     else:
                         testdata = pd.read_csv(upload_path, sep="\t", encoding=encoding)
                     predict(testdata, encoding, resultname)
+                    print("finish predicting")
                     # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
                         "code": 0,
