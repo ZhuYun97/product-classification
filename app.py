@@ -108,7 +108,7 @@ def create_app():
                 "message": "错误发生在预测时"
             })
 
-    def predict(testdata, encoding, path):
+    def predict(testdata, encoding, path, fasttext_model=fasttext_model):
         for index, row in testdata.iterrows():
             raw_text = row["ITEM_NAME"]
             text = deal(raw_text)
@@ -120,8 +120,11 @@ def create_app():
                     fasttext_model = fasttext.load_model("./algorithm/save/" + fm_name, label_prefix='__label__')
                     label = fasttext_model.predict([text], 1)[0][0]
 
-            except Exception:
-                pass
+            except Exception as e:
+                return jsonify({
+                    "code": 1,
+                    "message": str(e)
+                })
             finally:
                 row["TYPE"] = label
         testdata.to_csv(path, encoding=encoding)
@@ -146,10 +149,12 @@ def create_app():
             if suffix == 'xls' or suffix == "xlsx":
                 try:
                     testdata = pd.read_excel(upload_path, sep="\t", encoding = encoding)
+                    predict(testdata, encoding, resultname)
+                # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
-                        "message": "编码正确"
+                        "code": 0,
+                        "filename": filename
                     })
-                    # predict(testdata, encoding, resultname)
                 except Exception as e:
                     return jsonify({
                         "code": 2,
@@ -159,9 +164,11 @@ def create_app():
             elif suffix == 'csv' or suffix == 'tsv':
                 try:
                     testdata = pd.read_csv(upload_path, sep="\t", encoding=encoding)
-                    # predict(testdata, encoding, resultname)
+                    predict(testdata, encoding, resultname)
+                    # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
-                        "message": "编码正确"
+                        "code": 0,
+                        "filename": filename
                     })
                 except Exception as e:
                     return jsonify({
@@ -171,11 +178,7 @@ def create_app():
                     })
             else:
                 raise Exception("文件类型错误，请选择xls，csv，tsv类型的文件")
-            # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
-            return jsonify({
-                "code": 0,
-                "filename": filename
-            })
+
         except Exception as e:
             return jsonify({
                 "code": 1,
