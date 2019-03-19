@@ -121,11 +121,11 @@ def create_app():
                     else:
                         fasttext_model = fasttext.load_model("./algorithm/save/" + fm_name, label_prefix='__label__')
                         label = fasttext_model.predict([text], 1)[0][0]
-                    row["TYPE"] = label
+                    # row["TYPE"] = label
                 except Exception as e:
                     print(1, str(e))
-                # finally:
-                #     row["TYPE"] = label
+                finally:
+                    row["TYPE"] = label
             print("before saving")
             if encoding == "utf-8":
                 testdata.to_csv(path, encoding=encoding, sep=",")
