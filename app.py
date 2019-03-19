@@ -128,11 +128,12 @@ def create_app():
                     })
                 # finally:
                 #     row["TYPE"] = label
+            print("before saving")
             if encoding == "utf-8":
-                print(path)
                 testdata.to_csv(path, encoding=encoding, sep=",")
             else:
                 testdata.to_csv(path, encoding=encoding, sep="\t")
+            print("after saving")
         except Exception as e:
             return jsonify({
                 "code": 3,
