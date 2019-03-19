@@ -110,6 +110,7 @@ def create_app():
 
     def predict(testdata, encoding, path, fasttext_model=fasttext_model):
         for index, row in testdata.iterrows():
+            print(row)
             raw_text = row["ITEM_NAME"]
             text = deal(raw_text)
             label = "Unknown"
@@ -127,7 +128,10 @@ def create_app():
                 })
             finally:
                 row["TYPE"] = label
-        testdata.to_csv(path, encoding=encoding)
+        if encoding == "utf-8":
+            testdata.to_csv(path, encoding=encoding, sep=",")
+        else:
+            testdata.to_csv(path, encoding=encoding, sep="\t")
 
     @app.route("/uploadfile", methods=["POST"])
     def upload_csv():
@@ -148,7 +152,10 @@ def create_app():
             suffix = f.filename.split(".")[-1]
             if suffix == 'xls' or suffix == "xlsx":
                 try:
-                    testdata = pd.read_excel(upload_path, sep="\t", encoding = encoding)
+                    if encoding == "utf-8":
+                        testdata = pd.read_excel(upload_path, sep=",", encoding = encoding)
+                    else:
+                        testdata = pd.read_excel(upload_path, sep="\t", encoding=encoding)
                     predict(testdata, encoding, resultname)
                 # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
@@ -163,7 +170,10 @@ def create_app():
                     })
             elif suffix == 'csv' or suffix == 'tsv':
                 try:
-                    testdata = pd.read_csv(upload_path, sep="\t", encoding=encoding)
+                    if encoding == "utf-8":
+                        testdata = pd.read_csv(upload_path, sep=",", encoding=encoding)
+                    else:
+                        testdata = pd.read_csv(upload_path, sep="\t", encoding=encoding)
                     predict(testdata, encoding, resultname)
                     # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
