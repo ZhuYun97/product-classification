@@ -133,7 +133,10 @@ def create_app():
             if suffix == 'xls' or suffix == "xlsx":
                 try:
                     testdata = pd.read_excel(upload_path, sep="\t", encoding = encoding)
-                    predict(testdata, encoding, resultname)
+                    return jsonify({
+                        "message": "编码正确"
+                    })
+                    # predict(testdata, encoding, resultname)
                 except Exception:
                     return jsonify({
                         "code": 2,
