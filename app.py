@@ -108,7 +108,7 @@ def create_app():
                 "message": "错误发生在预测时"
             })
 
-    def predict(testdata, encoding, path):
+    def predict(testdata, encoding, path, fasttext_model = fasttext_model):
         try:
             for index, row in testdata.iterrows():
                 raw_text = row["ITEM_NAME"]
