@@ -117,6 +117,7 @@ def create_app():
                 try:
                     if fasttext_model:
                         label = fasttext_model.predict([text], 1)[0][0]
+                        print(label)
                     else:
                         fasttext_model = fasttext.load_model("./algorithm/save/" + fm_name, label_prefix='__label__')
                         label = fasttext_model.predict([text], 1)[0][0]
