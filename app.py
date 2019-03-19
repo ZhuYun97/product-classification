@@ -127,10 +127,16 @@ def create_app():
                 })
             finally:
                 row["TYPE"] = label
-        if encoding == "utf-8":
-            testdata.to_csv(path, encoding=encoding, sep=",")
-        else:
-            testdata.to_csv(path, encoding=encoding, sep="\t")
+        try:
+            if encoding == "utf-8":
+                testdata.to_csv(path, encoding=encoding, sep=",")
+            else:
+                testdata.to_csv(path, encoding=encoding, sep="\t")
+        except Exception as e:
+            return jsonify({
+                "code": 2,
+                "message": str(e)
+            })
 
     @app.route("/uploadfile", methods=["POST"])
     def upload_csv():
