@@ -128,29 +128,21 @@ def create_app():
                     })
                 # finally:
                 #     row["TYPE"] = label
-
-        except Exception as e:
-            return jsonify({
-                "code": 3,
-                "message": str(e)
-            })
-        try:
             if encoding == "utf-8":
                 testdata.to_csv(path, encoding=encoding, sep=",")
             else:
                 testdata.to_csv(path, encoding=encoding, sep="\t")
         except Exception as e:
             return jsonify({
-                "code": 2,
+                "code": 3,
                 "message": str(e)
             })
-        return
+
 
     @app.route("/uploadfile", methods=["POST"])
     def upload_csv():
         import time
         unique = str(int(time.time()))
-        resultname = "/root/A01/back-end/static/uploads/" + unique + ".csv"
         filename = unique + ".csv"
         testdata = None
         try:
@@ -158,6 +150,7 @@ def create_app():
             f = request.files['file_test']
             basepath = os.path.dirname(__file__)
             upload_path = os.path.join(basepath, 'static/uploads', f.filename)
+            resultname = os.path.join(basepath, 'static/uploads', filename)
             f.save(upload_path)
             # 根据后缀名来决定读取方式
             if(f.filename.find(".") == -1):
