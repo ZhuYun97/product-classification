@@ -137,10 +137,11 @@ def create_app():
                         "message": "编码正确"
                     })
                     # predict(testdata, encoding, resultname)
-                except Exception:
+                except Exception as e:
                     return jsonify({
                         "code": 2,
-                        "message": "编码不正确，请选择其他的编码方式"
+                        "message": "编码不正确，请选择其他的编码方式",
+                        "error": str(e)
                     })
             elif suffix == 'csv' or suffix == 'tsv':
                 try:
