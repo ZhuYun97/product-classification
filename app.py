@@ -108,7 +108,7 @@ def create_app():
                 "message": "错误发生在预测时"
             })
 
-    def predict(testdata, encoding, path, fasttext_model=fasttext_model):
+    def predict(testdata, encoding, path):
         try:
             for index, row in testdata.iterrows():
                 raw_text = row["ITEM_NAME"]
@@ -120,14 +120,14 @@ def create_app():
                     else:
                         fasttext_model = fasttext.load_model("./algorithm/save/" + fm_name, label_prefix='__label__')
                         label = fasttext_model.predict([text], 1)[0][0]
-
+                    row["TYPE"] = label
                 except Exception as e:
                     return jsonify({
                         "code": 1,
                         "message": str(e)
                     })
-                finally:
-                    row["TYPE"] = label
+                # finally:
+                #     row["TYPE"] = label
 
         except Exception as e:
             return jsonify({
