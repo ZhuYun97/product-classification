@@ -122,7 +122,7 @@ def create_app():
                         label = fasttext_model.predict([text], 1)[0][0]
                     row["TYPE"] = label
                 except Exception as e:
-                    print(str(e))
+                    print(1, str(e))
                 # finally:
                 #     row["TYPE"] = label
             print("before saving")
@@ -132,10 +132,7 @@ def create_app():
                 testdata.to_csv(path, encoding=encoding, sep="\t")
             print("after saving")
         except Exception as e:
-            return jsonify({
-                "code": 3,
-                "message": str(e)
-            })
+            print(2, str(e))
 
 
     @app.route("/uploadfile", methods=["POST"])
