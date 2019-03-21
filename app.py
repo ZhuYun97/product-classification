@@ -108,16 +108,48 @@ def create_app():
                 "message": "错误发生在预测时"
             })
 
+
+    def deal_result(results):
+        dealed = []
+
+        for key, value in results.items():
+            words = key.split("--")
+            sign = False  # 判断一级商品名存不存在
+            for item in dealed:
+                if words[0] == item["name"]:
+                    sign = True
+                    sign2 = False
+                    for child in item["children"]:
+                        if words[1] == child["name"]:
+                            sign2 = True
+                            child["children"].append({"name": words[2], "value": value})
+                        else:
+                            continue
+                    if not sign2:
+                        tmp = {"name": words[1], "children": [{"name": words[2], "value": value}]}
+                        item["children"].append(tmp)
+                else:
+                    continue
+            if not sign:
+                dealed.append({"name": words[0], "children": [{"name": words[1], "children": [{"name": words[2],
+                                                                                               "value": value}]}]})
+        return {"name": "flare", "children": dealed}
+
+
     def predict(testdata, encoding, path, fasttext_model = fasttext_model):
         try:
+            results = {}
+            perfect_results = {
+                "name": "flare",
+                "children": []
+            }
             for index, row in testdata.iterrows():
                 raw_text = row["ITEM_NAME"]
                 text = deal(raw_text)
-                label = "Unknown"
+                label = "Unknown--Unknown--Unknown"
                 try:
                     if fasttext_model:
                         label = fasttext_model.predict([text], 1)[0][0]
-                        print(label)
                     else:
                         fasttext_model = fasttext.load_model("./algorithm/save/" + fm_name, label_prefix='__label__')
                         label = fasttext_model.predict([text], 1)[0][0]
@@ -126,11 +158,15 @@ def create_app():
                     print(1, str(e))
                 finally:
                     row["TYPE"] = label
+                    if results[label]:
+                        results[label] += 1
+                    else:
+                        results = 1
             print("before saving")
             if encoding == "utf-8":
-                testdata.to_csv(path, encoding=encoding, sep=",")
+                testdata.to_csv(path, encoding=encoding, sep=",", index=False)
             else:
-                testdata.to_csv(path, encoding=encoding, sep="\t")
+                testdata.to_csv(path, encoding=encoding, sep="\t", index=False)
             print("after saving")
         except Exception as e:
             print(2, str(e))
