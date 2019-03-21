@@ -158,7 +158,7 @@ def create_app():
                     print(1, str(e))
                 finally:
                     row["TYPE"] = label
-                    if results[label]:
+                    if label in results.keys():
                         results[label] += 1
                     else:
                         results = 1
