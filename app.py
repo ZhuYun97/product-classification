@@ -168,7 +168,7 @@ def create_app():
             else:
                 testdata.to_csv(path, encoding=encoding, sep="\t", index=False)
             print("after saving")
-            #return deal_result(results)
+            return deal_result(results)
         except Exception as e:
             print(2, str(e))
 
