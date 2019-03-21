@@ -168,6 +168,7 @@ def create_app():
             else:
                 testdata.to_csv(path, encoding=encoding, sep="\t", index=False)
             print("after saving")
+            return deal_result(results)
         except Exception as e:
             print(2, str(e))
 
@@ -195,11 +196,12 @@ def create_app():
                         testdata = pd.read_excel(upload_path, sep=",", encoding = encoding)
                     else:
                         testdata = pd.read_excel(upload_path, sep="\t", encoding=encoding)
-                    predict(testdata, encoding, resultname)
+                    results = predict(testdata, encoding, resultname)
                 # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
                         "code": 0,
-                        "filename": resultname
+                        "filename": resultname,
+                        "results": results
                     })
                 except Exception as e:
                     return jsonify({
@@ -213,11 +215,12 @@ def create_app():
                         testdata = pd.read_csv(upload_path, sep=",", encoding=encoding)
                     else:
                         testdata = pd.read_csv(upload_path, sep="\t", encoding=encoding)
-                    predict(testdata, encoding, resultname)
+                    results = predict(testdata, encoding, resultname)
                     # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
                     return jsonify({
                         "code": 0,
-                        "filename": resultname
+                        "filename": resultname,
+                        "results": results
                     })
                 except Exception as e:
                     return jsonify({
