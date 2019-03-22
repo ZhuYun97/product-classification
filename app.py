@@ -78,6 +78,7 @@ def create_app():
 
             # resultlist = fasttext_model.predict([pn], 5)
             item = fasttext_model.predict_proba([pn], 1)[0]
+            print("item:", item)
             if len(item) != 2:
                 raise Exception("未知错误")
             return jsonify({
