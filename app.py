@@ -77,7 +77,19 @@ def create_app():
             # 输入文本过短
 
             # resultlist = fasttext_model.predict([pn], 5)
-            item = fasttext_model.predict_proba([pn], 1)[0][0]
+            try:
+                item = fasttext_model.predict_proba([pn], 1)[0][0]
+            except Exception as e:
+                json_data = jsonify({
+                    "pn": pn,
+                    "code": 1,
+                    "message": "输入不规范，请重新输入"
+                })
+                response = make_response(json_data)
+                response.headers['Access-Control-Allow-Origin'] = '*'
+                response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+                response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+                return response
             print("item:", item)
             if len(item) != 2:
                 raise Exception("未知错误")
