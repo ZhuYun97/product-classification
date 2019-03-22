@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, render_template, send_from_directory, abort, jsonify, g
+from flask import Flask, request, redirect, url_for, render_template, send_from_directory, abort, jsonify, make_response
 import fasttext
 import traceback
 import os
@@ -81,12 +81,17 @@ def create_app():
             print("item:", item)
             if len(item) != 2:
                 raise Exception("未知错误")
-            return jsonify({
+            json_data = jsonify({
                 "pn": pn,
                 "code": 0,
                 "type": item[0],
                 "prob": item[1]
             })
+            response = make_response(json_data)
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+            response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+            return response
             # if resultlist:
             #     result = resultlist[0]
             #     return jsonify({
@@ -172,6 +177,7 @@ def create_app():
             else:
                 testdata.to_csv(path, encoding=encoding, sep="\t", index=False)
             print("after saving")
+
             return deal_result(results)
         except Exception as e:
             print(2, str(e))
@@ -202,11 +208,16 @@ def create_app():
                         testdata = pd.read_excel(upload_path, sep="\t", encoding=encoding)
                     results = predict(testdata, encoding, resultname)
                 # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
-                    return jsonify({
+                    json_data = jsonify({
                         "code": 0,
                         "filename": resultname,
                         "results": results
                     })
+                    response = make_response(json_data)
+                    response.headers['Access-Control-Allow-Origin'] = '*'
+                    response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+                    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+                    return response
                 except Exception as e:
                     return jsonify({
                         "code": 2,
@@ -221,11 +232,16 @@ def create_app():
                         testdata = pd.read_csv(upload_path, sep="\t", encoding=encoding)
                     results = predict(testdata, encoding, resultname)
                     # return send_from_directory('static/uploads/', unique + ".csv", as_attachment=True)
-                    return jsonify({
+                    json_data = jsonify({
                         "code": 0,
                         "filename": resultname,
                         "results": results
                     })
+                    response = make_response(json_data)
+                    response.headers['Access-Control-Allow-Origin'] = '*'
+                    response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+                    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+                    return response
                 except Exception as e:
                     return jsonify({
                         "code": 2,
