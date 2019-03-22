@@ -77,7 +77,7 @@ def create_app():
             # 输入文本过短
 
             # resultlist = fasttext_model.predict([pn], 5)
-            item = fasttext_model.predict_proba([pn], 1)[0]
+            item = fasttext_model.predict_proba([pn], 1)[0][0]
             print("item:", item)
             if len(item) != 2:
                 raise Exception("未知错误")
