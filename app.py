@@ -138,7 +138,7 @@ def create_app():
 
     def predict(testdata, encoding, path, fasttext_model = fasttext_model):
         try:
-            results = {}
+            results = dict()
             perfect_results = {
                 "name": "flare",
                 "children": []
@@ -161,7 +161,7 @@ def create_app():
                     if label in results.keys():
                         results[label] += 1
                     else:
-                        results = 1
+                        results[label] = 1
             print("before saving")
             if encoding == "utf-8":
                 testdata.to_csv(path, encoding=encoding, sep=",", index=False)
