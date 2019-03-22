@@ -77,11 +77,14 @@ def create_app():
             # 输入文本过短
 
             # resultlist = fasttext_model.predict([pn], 5)
-            prolist = fasttext_model.predict_proba([pn], 3)
+            item = fasttext_model.predict_proba([pn], 1)[0]
+            if len(item) != 2:
+                raise Exception("未知错误")
             return jsonify({
                 "pn": pn,
                 "code": 0,
-                "problist": prolist
+                "type": item[0],
+                "prob": item[1]
             })
             # if resultlist:
             #     result = resultlist[0]
@@ -105,7 +108,7 @@ def create_app():
             print(info, str(e))
             return jsonify({
                 "code": 2,
-                "message": "错误发生在预测时"
+                "message": str(e)
             })
 
 
