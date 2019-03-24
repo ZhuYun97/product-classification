@@ -104,21 +104,6 @@ def create_app():
             response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
             response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
             return response
-            # if resultlist:
-            #     result = resultlist[0]
-            #     return jsonify({
-            #         # "words": partial_common_words,
-            #         "pn": pn,
-            #         "result_a": result,
-            #         "code": 0
-            #     })
-            # else:
-            #     return jsonify({
-            #         # "words": partial_common_words,
-            #         "pn": pn,
-            #         "result": "无法预测",
-            #         "code": 1
-            #     })
         except Exception as e:
             traceback.print_exc()
             # 或者得到堆栈字符串信息
@@ -203,6 +188,9 @@ def create_app():
         testdata = None
         try:
             encoding = request.form.get("encoding")
+            deal_type = request.form.get("deal_type")
+            if deal_type == 1:
+                time.sleep(10)
             f = request.files['file_test']
             basepath = os.path.dirname(__file__)
             upload_path = os.path.join(basepath, 'static/uploads', f.filename)

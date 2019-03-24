@@ -3,36 +3,22 @@ import jieba
 import re
 import codecs
 # classifier1 = fasttext.load_model("./c.bin", label_prefix='__label__')
-#
-# result = classifier1.test("./highrate.test")
-# print("Precision on testing data:", result.precision)
-# result = classifier1.test("./highrate.train")
-# print("Precision on training data:", result.precision)
-#
-# classifier1 = fasttext.load_model("./d.bin", label_prefix='__label__')
-# result = classifier1.test("./highrate.test")
-# print("Precision on testing data:", result.precision)
-# result = classifier1.test("./highrate.train")
-# print("Precision on training data:", result.precision)
-#
-# classifier1 = fasttext.load_model("./e.bin", label_prefix='__label__')
-# result = classifier1.test("./highrate.test")
-# print("Precision on testing data:", result.precision)
-# result = classifier1.test("./highrate.train")
-# print("Precision on training data:", result.precision)
-#
-# classifier1 = fasttext.load_model("./f.bin", label_prefix='__label__')
-# result = classifier1.test("./highrate.test")
-# print("Precision on testing data:", result.precision)
-# result = classifier1.test("./highrate.train")
-# print("Precision on training data:", result.precision)
-
+import time
+since = time.time()
 classifier1 = fasttext.load_model("./b.bin", label_prefix='__label__')
+time_elapsed = time.time() - since
+print('The fasttext model is loaded using {:.0f}m {:.0f}s'.format(
+    time_elapsed // 60, time_elapsed % 60))
+
+since = time.time()
 result = classifier1.test("./highrate.test")
+time_elapsed = time.time() - since
+print('The prediction is finished using {:.0f}m {:.0f}s'.format(
+    time_elapsed // 60, time_elapsed % 60))
 print("Precision on testing data:", result.precision)
 result = classifier1.test("./highrate.train")
 print("Precision on training data:", result.precision)
-#classifier2 = fasttext.load_model("./b.bin", label_prefix='__label__')
+
 
 # partial_common_words = [" ", '\r']
 # with open('./partial_common_words.txt', 'r', encoding = "utf-8") as file:
